@@ -3,9 +3,12 @@ const router = express.Router();
 
 router.get('/', (req, res)=>
 {
-    res.send('Express server using route');
+    res.send('Doctor Get request ');
 });
 
-router.use('/doctor', require('./doctor'));
+router.post('/', (req, res)=>
+{
+    res.send('Doctor post request ');
+})
 
 module.exports = router;
