@@ -1,0 +1,11 @@
+{
+  "name": "hospital-api",
+  "version": "1.0.0",
+  "description": "this is api for covid patient and doctor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "anil",
+  "license": "ISC"
+}
