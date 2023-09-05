@@ -1,11 +1,16 @@
 import express from 'express';
 import routes from './rotues/index.js';
 import db from './config/mongoose.js';
+import passport from 'passport';
+import passportJWT from './config/passport-jwt-strategy.js';
+
 const PORT = 8000;
 const app = express();
 
 app.use(express.json());
 
+
+// redirected to folder routes
 app.use('/api', routes);
 
 app.listen(PORT, (err)=>
