@@ -1,11 +1,10 @@
-const express = require('express');
+import express from 'express';
+import routes from './rotues/index.js';
+import db from './config/mongoose.js';
 const PORT = 8000;
-
 const app = express();
 
-
-
-app.use('/', require('./rotues/index.js'));
+app.use('/api', routes);
 
 app.listen(PORT, (err)=>
 {

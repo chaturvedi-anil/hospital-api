@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "this is api for covid patient and doctor",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "anil",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0"
   }
 }
