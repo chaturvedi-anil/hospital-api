@@ -5,7 +5,7 @@ const ExtractJWT = passportJwt.ExtractJwt;
 import Doctor from '../models/doctors.js';
 
 let opts = {
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken,
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey : 'codeial',
 }
 
