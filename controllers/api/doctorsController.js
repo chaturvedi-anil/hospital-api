@@ -36,7 +36,7 @@ export async function registerDoctor(req, res)
     }
     catch(error)
     {
-        console.log('Error in registering the error : ', error);
+        console.log('Error in registering the doctor : ', error);
         return res.status(500).json
         (
             {
@@ -50,5 +50,44 @@ export async function registerDoctor(req, res)
 
 export async function createSession(req, res)
 {
+    try
+    {
+        let doctor = await Doctor.findOne({email: req.body.email});
+        if(!doctor || req.body.password !== doctor.password)
+        {
+            // fail response
+            return res.status(401).json(
+                {
+                    "status": "error",
+                    "message": "Incorrect username or password"
+                }
+            );
+        }
 
+        // success response
+        return res.status(200).json(
+            {
+                "status": "success",
+                "message": "Sign-in successful",
+                "data": 
+                {
+                    "name": doctor.name,
+                    "email": doctor.email, 
+                }
+            }  
+        );
+
+    }
+    catch(error)
+    {
+        console.log('Error in creating session for doctor  : ', error);
+        return res.status(500).json
+        (
+            {
+                status: 'error',
+                message: 'Internal server Error',
+                data: error
+            }
+        );
+    }
 }
