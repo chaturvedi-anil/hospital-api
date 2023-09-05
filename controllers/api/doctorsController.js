@@ -1,5 +1,7 @@
 import Doctor from '../../models/doctors.js';
+import jwt from 'jsonwebtoken';
 
+// register doctor
 export async function registerDoctor(req, res)
 {
     try
@@ -48,6 +50,7 @@ export async function registerDoctor(req, res)
     }
 }
 
+// creating session for doctor 
 export async function createSession(req, res)
 {
     try
@@ -68,11 +71,11 @@ export async function createSession(req, res)
         return res.status(200).json(
             {
                 "status": "success",
-                "message": "Sign-in successful",
+                "message": "Sign-in successful, here is your token please keep it safe!",
                 "data": 
                 {
-                    "name": doctor.name,
-                    "email": doctor.email, 
+                    // token expire after 30 minute 
+                    "token": jwt.sign(doctor.toJSON(), 'codeial', {expiresIn: 30 * 60}) 
                 }
             }  
         );
