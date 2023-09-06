@@ -11,4 +11,5 @@ docterRouter.post('/register', registerDoctor);
 
 // create session for doctor 
 docterRouter.post('/create-session', createSession);
+
 export default docterRouter;

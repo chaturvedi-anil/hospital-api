@@ -1,20 +1,27 @@
 import mongoose from "mongoose";
 
 const doctorSchema = new mongoose.Schema({
-    name:{
+    name: 
+    {
         type: String,
         required: true
     },
-    email:
+    email: 
     {
         type: String,
         required: true,
         unique: true
     },
-    password:
+    password: 
     {
         type: String,
         required: true
+    },
+    role: 
+    {
+        type: String,
+        default: "doctor",
+        immutable: true // "this means you can not change this value"
     }
 },
 {

@@ -9,8 +9,10 @@ const app = express();
 
 app.use(express.json());
 
+// Initialize Passport
+app.use(passport.initialize());
 
-// redirected to folder routes
+// Redirected to folder routes
 app.use('/api', routes);
 
 app.listen(PORT, (err)=>

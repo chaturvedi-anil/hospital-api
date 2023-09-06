@@ -4,28 +4,30 @@ const JWTStrategy = passportJwt.Strategy;
 const ExtractJWT = passportJwt.ExtractJwt;
 import Doctor from '../models/doctors.js';
 
-let opts = {
+let opts = 
+{
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey : 'codeial',
+    secretOrKey: 'codeial',
 }
 
-passport.use(new JWTStrategy(opts, async function(jwtPayload, done)
+passport.use(new JWTStrategy(opts, async function (jwtPayload, done) 
 {
-    try
+    try 
     {
         let doctor = await Doctor.findById(jwtPayload._id);
-        if(doctor)
+        if (doctor) 
         {
-            return done(null, user);
-        }
-        else
+            return done(null, doctor); 
+        } 
+        else 
         {
             return done(null, false);
-        } 
-    }
-    catch(error)
+        }
+    } 
+    catch(error) 
     {
         console.log('Error in jwt : ', error);
+        return done(error); // Return the error
     }
 }));
 
