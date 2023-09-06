@@ -74,7 +74,6 @@ export async function createSession(req, res)
                 "message": "Sign-in successful, here is your token please keep it safe!",
                 "data": 
                 {
-                    "doctor_id": doctor._id,
                     // token expire after 30 minute 
                     "token": jwt.sign(doctor.toJSON(), 'codeial', {expiresIn: 30 * 60}) 
                 }

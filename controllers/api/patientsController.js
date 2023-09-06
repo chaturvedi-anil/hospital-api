@@ -9,7 +9,8 @@ export async function getAllReports(req, res)
         let patient = await Patient.findById(req.params.id);
         if(patient)
         {
-            let patientReport = await Report.find({patient: patient});
+            // TODO only send doctor patient status date
+            let patientReport = await Report.find({patient: patient}, 'doctor patient status date');
 
             if(patientReport)
             {
@@ -101,7 +102,59 @@ export async function registerPatient(req, res)
 }
 
 
-export async function createReport(req, res)
+export async function createReport(req, res) 
 {
+    try 
+    {
+        let patient = await Patient.findById({ _id: req.params.id }, '_id');
 
+        if (!req.user._id || !patient) 
+        {
+            return res.status(400).json(
+            {
+                "error": "Bad Request",
+                "message": "Missing required parameter"
+            });
+        } 
+        else 
+        {
+            console.log(req.body);
+
+            // Validate the user input and ensure it's one of the allowed enum values
+            const status = req.body.status;
+
+            if (!['Negative', 'Travelled-Quarantine', 'Symptoms-Quarantine', 'Positive-Admit'].includes(status)) 
+            {
+                return res.status(400).json({
+                    status: "error",
+                    message: 'Invalid status value'
+                });
+            }
+
+            // Create a new report with the validated status value
+            const newReport = await Report.create(
+            {
+                doctor: req.user._id,
+                patient: patient._id,
+                status: req.body.status,
+            });
+
+            return res.status(201).json(
+            {
+                status: 'success',
+                message: 'Patient report is created',
+                data: newReport
+            });
+        }
+
+    } 
+    catch (error) 
+    {
+        console.log('Error in creating patient report', error);
+        return res.status(500).json(
+        {
+            status: 'error',
+            message: 'Internal server error',
+        });
+    }
 }
