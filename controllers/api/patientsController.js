@@ -4,7 +4,51 @@ import Report from "../../models/reports.js";
 
 export async function patientProfile(req, res)
 {
-    return res.status(200).json({"message": "patient profile"});
+    try
+    {
+        let patient = await Patient.findOne({phoneNumber:req.body.phoneNumber});
+        if(patient)
+        {
+            let patientReport = await Report.find({patient: patient._id});
+
+            if(patientReport)
+            {
+                return res.status(201).json(
+                {
+                    "status": "success",
+                    "message": "this is a list of your reports",
+                    "data": patientReport
+                });
+            }
+            else
+            {
+                return res.status(201).json(
+                {
+                    "status": "success",
+                    "message": "You don't have any reports",
+                });
+            }
+        }
+        else
+        {
+            return res.status(401).json(
+            {
+                "status": "error",
+                "message": "Unautherized User",
+            });
+        }
+    }
+    catch(error)
+    {
+        console.log('Error in geting patient report :', error);
+        return res.status(500).json
+        (
+            {
+                status: 'error',
+                message: 'Internal server error',
+            }
+        );
+    }
 }
 export async function registerPatient(req, res)
 {
@@ -45,12 +89,12 @@ export async function registerPatient(req, res)
     }
     catch(error)
     {
+        console.log('Error in registering new patient');
         return res.status(500).json
         (
             {
                 status: 'error',
-                message: 'Error in registering new patient',
-                data: error
+                message: 'Internal server error',
             }
         );
     }

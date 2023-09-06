@@ -36,10 +36,10 @@ patientRouter.post('/register',
 );
 
 // patient login
-patientRouter.get('/sign-in', patientProfile);
+patientRouter.get('/get-profile', patientProfile);
 
 // only doctor can create patient report
-patientRouter.post('/:id/create_report', 
+patientRouter.post('/:id/create-report', 
     passport.authenticate('jwt', {session:false}),
     isDoctor,
     createReport
