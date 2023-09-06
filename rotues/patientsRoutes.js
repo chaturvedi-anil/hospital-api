@@ -4,7 +4,7 @@ import
 { 
     registerPatient, 
     createReport, 
-    patientProfile 
+    getAllReports 
 } from '../controllers/api/patientsController.js';
 
 const patientRouter = Router();
@@ -36,7 +36,7 @@ patientRouter.post('/register',
 );
 
 // patient login
-patientRouter.get('/get-profile', patientProfile);
+patientRouter.get('/:id/all-reports', getAllReports);
 
 // only doctor can create patient report
 patientRouter.post('/:id/create-report', 

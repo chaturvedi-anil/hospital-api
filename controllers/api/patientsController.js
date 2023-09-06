@@ -2,14 +2,14 @@ import Patient from "../../models/patient.js";
 import Doctor from "../../models/doctors.js";
 import Report from "../../models/reports.js";
 
-export async function patientProfile(req, res)
+export async function getAllReports(req, res)
 {
     try
     {
-        let patient = await Patient.findOne({phoneNumber:req.body.phoneNumber});
+        let patient = await Patient.findById(req.params.id);
         if(patient)
         {
-            let patientReport = await Report.find({patient: patient._id});
+            let patientReport = await Report.find({patient: patient});
 
             if(patientReport)
             {
@@ -103,10 +103,5 @@ export async function registerPatient(req, res)
 
 export async function createReport(req, res)
 {
-    return res.status(201).json(
-        {
-            "status" : "success",
-            "message" : "this is report",
-        }
-    )
+
 }
