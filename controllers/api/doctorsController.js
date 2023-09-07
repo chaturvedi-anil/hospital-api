@@ -1,5 +1,7 @@
 import Doctor from '../../models/doctors.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // register doctor
 export async function registerDoctor(req, res)
@@ -74,7 +76,7 @@ export async function createSession(req, res)
                 "data": 
                 {
                     // token expire after 30 minute 
-                    "token": jwt.sign(doctor.toJSON(), 'codeial', {expiresIn: 30 * 60}) 
+                    "token": jwt.sign(doctor.toJSON(), process.env.JWT_KEY, {expiresIn: 30 * 60}) 
                 }
             }  
         );

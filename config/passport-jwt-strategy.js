@@ -10,7 +10,7 @@ import Doctor from '../models/doctors.js';
 let opts = 
 {
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: JWT_KEY,
+    secretOrKey: process.env.JWT_KEY,
 }
 
 passport.use(new JWTStrategy(opts, async function (jwtPayload, done) 
