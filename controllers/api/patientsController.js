@@ -10,23 +10,35 @@ export async function getAllReports(req, res)
         if(patient)
         {
             // TODO only send doctor patient status date
-            let patientReport = await Report.find({patient: patient}, 'doctor patient status date');
+            let patientReports = await Report.find({patient: patient})
+            .populate('doctor', 'name')
+            .populate('patient', 'name');
 
-            if(patientReport)
+            if (patientReports.length > 0) 
             {
-                return res.status(201).json(
+                // Construct the response JSON
+                let responseData = patientReports.map((report) => (
                 {
-                    "status": "success",
-                    "message": "this is a list of your reports",
-                    "data": patientReport
+                    "Doctor Name": report.doctor.name,
+                    "Patient Name": report.patient.name,
+                    "Status": report.status,
+                    "Date": report.date
+                }));
+        
+                return res.status(200).json(
+                {
+                    status: "success",
+                    message: "This is a list of your reports",
+                    data: responseData
                 });
-            }
-            else
+            } 
+            else 
             {
-                return res.status(201).json(
+                return res.status(200).json(
                 {
-                    "status": "success",
-                    "message": "You don't have any reports",
+                    status: "success",
+                    message: "You don't have any reports",
+                    data: []
                 });
             }
         }
@@ -51,6 +63,8 @@ export async function getAllReports(req, res)
         );
     }
 }
+
+
 export async function registerPatient(req, res)
 {
     try
@@ -118,7 +132,6 @@ export async function createReport(req, res)
         } 
         else 
         {
-            console.log(req.body);
 
             // Validate the user input and ensure it's one of the allowed enum values
             const status = req.body.status;
