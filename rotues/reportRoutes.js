@@ -1,8 +1,14 @@
 import { Router } from 'express';
-import { createReport } from '../controllers/api/reportsController.js';
+import passport from 'passport';
+import { getReportsByStatus } from '../controllers/api/reportsController.js';
 const reportRouter = Router();
 
 
-reportRouter.post('/create-report', createReport);
+reportRouter.get
+(
+    '/:status', //route
+    passport.authenticate('jwt', {session:false}), // jwt authentication using passport
+    getReportsByStatus // controller
+);
 
 export default reportRouter;

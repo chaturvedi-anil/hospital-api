@@ -9,7 +9,7 @@ export async function getAllReports(req, res)
         let patient = await Patient.findById(req.params.id);
         if(patient)
         {
-            // TODO only send doctor patient status date
+            // populate function fetches data from linked models like here from doctor and patient
             let patientReports = await Report.find({patient: patient})
             .populate('doctor', 'name')
             .populate('patient', 'name');
@@ -127,7 +127,7 @@ export async function createReport(req, res)
             return res.status(400).json(
             {
                 "error": "Bad Request",
-                "message": "Missing required parameter"
+                "message": "Missing Doctor / Patient Details"
             });
         } 
         else 
@@ -140,7 +140,7 @@ export async function createReport(req, res)
             {
                 return res.status(400).json({
                     status: "error",
-                    message: 'Invalid status value'
+                    message: 'Invalid status value, status only take these values [Negative, Travelled-Quarantine, Symptoms-Quarantine, Positive-Admit]'
                 });
             }
 
