@@ -1,4 +1,4 @@
-import Patient from "../../models/patient.js";
+import Patient from "../../models/patients.js";
 import Report from "../../models/reports.js";
 
 export async function getAllReports(req, res)
