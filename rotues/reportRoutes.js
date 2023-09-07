@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { getReportsByStatus } from '../controllers/api/reportsController.js';
+import { getPatientReportsByStatus } from '../controllers/api/reportsController.js';
 const reportRouter = Router();
 
-
+// Only doctor can see patient reports by status 
 reportRouter.get
 (
     '/:status', //route
     passport.authenticate('jwt', {session:false}), // jwt authentication using passport
-    getReportsByStatus // controller
+    getPatientReportsByStatus // controller
 );
 
 export default reportRouter;

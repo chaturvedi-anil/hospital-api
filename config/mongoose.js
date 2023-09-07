@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Replace 'your_connection_string_here' with your actual MongoDB connection string
-const uri = 'mongodb://localhost:27017/hospital-api-db';
+const uri = process.env.MONGODB_CLOUD_SERVER_URL;
 
 mongoose.connect(uri, {
   useNewUrlParser: true,

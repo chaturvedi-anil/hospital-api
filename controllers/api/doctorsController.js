@@ -44,7 +44,6 @@ export async function registerDoctor(req, res)
             {
                 status: 'error',
                 message: 'Internal server Error',
-                data: error
             }
         );
     }
@@ -89,7 +88,6 @@ export async function createSession(req, res)
             {
                 status: 'error',
                 message: 'Internal server Error',
-                data: error
             }
         );
     }

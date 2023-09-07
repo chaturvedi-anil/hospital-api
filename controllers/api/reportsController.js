@@ -1,6 +1,6 @@
 import Report from '../../models/reports.js';
 
-export async function getReportsByStatus(req, res)
+export async function getPatientReportsByStatus(req, res)
 {
     try
     {

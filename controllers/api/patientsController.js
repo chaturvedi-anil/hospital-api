@@ -1,5 +1,4 @@
 import Patient from "../../models/patient.js";
-import Doctor from "../../models/doctors.js";
 import Report from "../../models/reports.js";
 
 export async function getAllReports(req, res)
@@ -69,6 +68,15 @@ export async function registerPatient(req, res)
 {
     try
     {
+        if(!(req.body.phoneNumber.length === 10))
+        {
+            return res.status(400).json(
+            {
+                status: 'error',
+                message: "Invalid phone number length. Phone number must have exactly 10 digits."
+                
+            });
+        }
         let patient = await Patient.findOne({phoneNumber: req.body.phoneNumber});
         if(!patient)
         {
@@ -86,7 +94,7 @@ export async function registerPatient(req, res)
 
         let patientReport = await Report.findOne({patient: patient._id});
 
-        console.log("patient Report : ", patientReport);
+        // console.log("patient Report : ", patientReport);
 
         return res.status(201).json(
             {

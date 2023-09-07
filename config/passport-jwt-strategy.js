@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import passport from 'passport';
 import passportJwt from 'passport-jwt';
 const JWTStrategy = passportJwt.Strategy;
@@ -7,7 +10,7 @@ import Doctor from '../models/doctors.js';
 let opts = 
 {
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'codeial',
+    secretOrKey: JWT_KEY,
 }
 
 passport.use(new JWTStrategy(opts, async function (jwtPayload, done) 
