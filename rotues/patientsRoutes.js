@@ -19,7 +19,7 @@ patientRouter.post
 );
 
 //patient login need to send patient id in params
-patientRouter.get('/:id/all-reports', getAllReports);
+patientRouter.get('/all-reports', getAllReports);
 
 // get all patients 
 patientRouter.get

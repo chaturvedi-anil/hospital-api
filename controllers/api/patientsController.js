@@ -1,15 +1,17 @@
 import Patient from "../../models/patients.js";
 import Report from "../../models/reports.js";
 
+
+// for patient request
 export async function getAllReports(req, res)
 {
     try
     {
-        let patient = await Patient.findById(req.params.id);
+        let patient = await Patient.findOne({phoneNumber:req.body.phoneNumber});
         if(patient)
         {
             // populate function fetches data from linked models like here from doctor and patient
-            let patientReports = await Report.find({patient: patient})
+            let patientReports = await Report.find({patient: patient._id})
             .populate('doctor', 'name')
             .populate('patient', 'name');
 
@@ -144,14 +146,14 @@ export async function registerPatient(req, res)
         let patientReport = await Report.findOne({patient: patient._id});
 
         // console.log("patient Report : ", patientReport);
-
+        console.log(patientReport);
         return res.status(201).json(
             {
                 "status": "success",
                 "message": "this is the report of patient",
                 data:
                 {
-                    "patient name": patientReport.patient.name,
+                    "patient name": patientReport.patient,
                     "doctor name": patientReport.doctor.name,
                     "status": patientReport.status,
                     "date": patientReport.date
@@ -161,7 +163,7 @@ export async function registerPatient(req, res)
     }
     catch(error)
     {
-        console.log('Error in registering new patient');
+        console.log('Error in registering new patient' , error);
         return res.status(500).json
         (
             {
@@ -191,7 +193,7 @@ export async function createReport(req, res)
         {
 
             // Validate the user input and ensure it's one of the allowed enum values
-            const status = req.body.status;
+            const {status} = req.body;
 
             if (!['Negative', 'Travelled-Quarantine', 'Symptoms-Quarantine', 'Positive-Admit'].includes(status)) 
             {
@@ -206,15 +208,28 @@ export async function createReport(req, res)
             {
                 doctor: req.user._id,
                 patient: patient._id,
-                status: req.body.status,
+                status: status,
             });
 
-            return res.status(201).json(
+            let updatePatient = await Patient.findByIdAndUpdate(patient._id, {$push: {myReports:newReport._id}});
+
+            if(updatePatient)
             {
-                status: 'success',
-                message: 'Patient report is created',
-                data: newReport
-            });
+                return res.status(201).json(
+                {
+                    status: 'success',
+                    message: 'Patient report is created',
+                    data: newReport
+                });
+            }
+            else
+            {
+                return res.status(201).json(
+                {
+                    status: 'error',
+                    message: 'Error in updating patients myReports array ',
+                });
+            }
         }
 
     } 

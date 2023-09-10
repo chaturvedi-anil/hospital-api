@@ -14,7 +14,14 @@ const patientSchema = new mongoose.Schema(
         unique: true,
         min: [10, 'to short (min length 10 )'],
         max: 10
-    }
+    },
+    myReports:
+    [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Reports'
+        }
+    ]
 },
 {
     timestamps: true
