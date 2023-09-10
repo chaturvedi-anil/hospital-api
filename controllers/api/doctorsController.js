@@ -67,6 +67,17 @@ export async function createSession(req, res)
                 }
             );
         }
+        // Generate a JWT token for the authenticated doctor
+        const token = jwt.sign(
+            {
+                id: doctor._id, // Include relevant data in the payload
+                email: doctor
+            },
+            process.env.JWT_KEY,
+            { 
+                expiresIn: '30m' 
+            }
+        );
 
         // success response
         return res.status(200).json(
@@ -75,8 +86,8 @@ export async function createSession(req, res)
                 "message": "Sign-in successful, here is your token please keep it safe!",
                 "data": 
                 {
-                    // token expire after 30 minute 
-                    "token": jwt.sign(doctor.toJSON(), process.env.JWT_KEY, {expiresIn: 30 * 60}) 
+                    message : "token expire after 30 minute", 
+                    token: "Bearer " + token
                 }
             }  
         );
@@ -90,6 +101,7 @@ export async function createSession(req, res)
             {
                 status: 'error',
                 message: 'Internal server Error',
+                error: error.message
             }
         );
     }

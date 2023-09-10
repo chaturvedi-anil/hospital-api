@@ -63,6 +63,55 @@ export async function getAllReports(req, res)
     }
 }
 
+export async function getAllPatients(req, res)
+{
+    try
+    {
+        if(req.user)
+        {
+            let patientsList = await Patient.find();
+
+            // patients found
+            if(patientsList.length > 0 )
+            {
+
+                let responseData = patientsList.map((patient) => (
+                {
+                    "patient Id" : patient._id,
+                    "patient Name": patient.name,
+                    "patient Number" : patient.phoneNumber
+                }));
+        
+                return res.status(200).json(
+                {
+                    status: "success",
+                    message: "All Patients List",
+                    data: responseData
+                });
+            }
+            else
+            {
+                return res.status(200).json(
+                {
+                    status: "success",
+                    message: "Not Found Any Patient",
+                    data: []
+                });
+            }
+        }
+    }
+    catch(error)
+    {
+        console.log('Error in geting patients list :', error);
+        return res.status(500).json
+        (
+            {
+                status: 'error',
+                message: 'Internal server error',
+            }
+        );
+    }
+}
 
 export async function registerPatient(req, res)
 {
@@ -128,14 +177,14 @@ export async function createReport(req, res)
 {
     try 
     {
-        let patient = await Patient.findById({ _id: req.params.id }, '_id');
+        let patient = await Patient.findById({ _id: req.params.id });
 
         if (!req.user._id || !patient) 
         {
             return res.status(400).json(
             {
                 "error": "Bad Request",
-                "message": "Missing Doctor / Patient Details"
+                "message": "Missing Patient Details"
             });
         } 
         else 

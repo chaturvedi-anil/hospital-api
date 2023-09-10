@@ -17,10 +17,10 @@ passport.use(new JWTStrategy(opts, async function (jwtPayload, done)
 {
     try 
     {
-        let doctor = await Doctor.findById(jwtPayload._id);
+        let doctor = await Doctor.findById(jwtPayload.id);
         if (doctor) 
         {
-            return done(null, doctor); 
+            return done(null, doctor, {message: 'User Authenticated Successfully'}); 
         } 
         else 
         {

@@ -4,7 +4,8 @@ import
 { 
     registerPatient, 
     createReport, 
-    getAllReports 
+    getAllReports ,
+    getAllPatients
 } from '../controllers/api/patientsController.js';
 
 const patientRouter = Router();
@@ -19,6 +20,15 @@ patientRouter.post
 
 // patient login
 patientRouter.get('/:id/all-reports', getAllReports);
+
+// get all patients 
+patientRouter.get
+(
+    '/all-patients',
+    passport.authenticate('jwt', {session:false}), //jwt authentication using passport  
+    getAllPatients
+);
+
 
 // only doctor can create patient report
 patientRouter.post

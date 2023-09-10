@@ -7,6 +7,7 @@ import passportJWT from './config/passport-jwt-strategy.js';
 const PORT = 8000;
 const app = express();
 
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // Initialize Passport
