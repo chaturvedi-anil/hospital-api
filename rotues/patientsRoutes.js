@@ -18,7 +18,7 @@ patientRouter.post
     registerPatient //controller
 );
 
-// patient login
+//patient login need to send patient id in params
 patientRouter.get('/:id/all-reports', getAllReports);
 
 // get all patients 
@@ -33,7 +33,7 @@ patientRouter.get
 // only doctor can create patient report
 patientRouter.post
 (
-    '/:id/create-report', //route
+    '/:id/create-report', //need to send patient id in params 
     passport.authenticate('jwt', {session:false}), //jwt authentication using passport 
     createReport //controller
 );
